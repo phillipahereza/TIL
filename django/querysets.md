@@ -26,8 +26,8 @@ But if for some reason the queryset is modified, then it makes another trip to g
 with CaptureQueriesContext(connection) as context:
     qs = Entry.objects.all()
     L = list(qs)
-    qs = Entry.objects.filter(published=True)
-    L2 = list(qs)
+    qs2 = qs.filter(published=True)
+    L2 = list(qs2)
 
 print(context.final_queries - context.initial_queries)
 # 2
