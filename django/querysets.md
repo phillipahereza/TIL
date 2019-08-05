@@ -8,3 +8,28 @@ Things that cause a Queryset to trigger a database call:
 - Pickling/Caching queries
 - `len()` but it's more efficient to use `.count()`
 - list `entry_list = list(Entry.objects.all())`
+
+
+A QuerySet somehow reuses its previous data when we ask for it again
+```
+with CaptureQueriesContext(connection) as context:
+    qs = Entry.objects.all()
+    L = list(qs)
+    L2 = list(qs)
+
+print(context.final_queries - context.initial_queries)
+# 1
+```
+
+But if for some reason the queryset is modified, then it makes another trip to get the data
+```
+with CaptureQueriesContext(connection) as context:
+    qs = Entry.objects.all()
+    L = list(qs)
+    qs = Entry.objects.filter(published=True)
+    L2 = list(qs)
+
+print(context.final_queries - context.initial_queries)
+# 2
+```
+
