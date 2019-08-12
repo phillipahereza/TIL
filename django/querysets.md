@@ -33,3 +33,27 @@ print(context.final_queries - context.initial_queries)
 # 2
 ```
 
+`.select_related(fk)` - does an inner join across the foreign key
+
+```
+with CaptureQueriesContext(connection) as context:
+    for item in models.MainModel.objects.all():
+        name = item.fk.name
+
+print(context.final_queries - context.initial_queries)
+# 6
+```
+
+```
+with CaptureQueriesContext(connection) as context:
+    for item in models.MainModel.objects.select_related('fk').all():
+        name = item.fk.name
+
+print(context.final_queries - context.initial_queries)
+# 1
+```
+
+You can also join multiple tables deep by using Django's double-underscore syntax, for example `.select_related('foo__bar')` would join our main model's table with the table for `foo`, and then further join with the table for `bar`
+
+if the relationship runs the other way, resulting in a `one-to-many` relationship, use `prefetch_related()` instead
+

@@ -12,6 +12,7 @@ warrant a full blog post
     - [Categories](#categories)
     - [Python](#python)
     - [Django](#django)
+    - [Docker](#docker)
 
 
 ### Python
@@ -20,3 +21,6 @@ warrant a full blog post
   
 ### Django
 - [Evaluating Querysets](django/querysets.md)
+
+### Docker
+- [UNDERSTANDING ENTRYPOINT AND CMD](docker/docker.md)
